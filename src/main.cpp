@@ -51,7 +51,6 @@ int main()
 	}
 
 
-	// auto vao = create_rec_vao();
 	uint32_t vao;
 	{
 		float vertices[] = {
@@ -64,7 +63,7 @@ int main()
 			0.5f, 0.5f, 0.0f, // Top right 
 		};
 
-		uint32_t vao, vbo;
+		uint32_t vbo;
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &vbo);
 		glBindVertexArray(vao);
@@ -83,6 +82,17 @@ int main()
 
 	while(!glfwWindowShouldClose(win))
 	{
+		int state = glfwGetKey(win, GLFW_KEY_R);
+		if (state == GLFW_PRESS)
+		{
+			// Reload shareder
+			// Shader stuff
+			std::string vsource, fsource;
+			read_from_file("../test.glsl", vsource, fsource);
+			auto pid = create_shader_program(vsource.c_str(), fsource.c_str());
+			glUseProgram(pid);
+		}
+
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glDrawArrays(GL_TRIANGLES, 0, 6);
